@@ -217,3 +217,106 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - Do NOT delete tests without approval.
 
 </laravel-boost-guidelines>
+
+---
+
+# Lagos Game Center — Project Context
+
+> Aplikasi billing rental PS untuk usaha sendiri di Palembang.
+> Semua keputusan arsitektur, modul, schema, dan flow sudah didokumentasikan di folder `docs/`.
+> Baca dokumen yang relevan sebelum mengerjakan task apapun.
+
+---
+
+## Konvensi Lagos
+
+- Prefix tabel database: `lgs_` — contoh: `lgs_sesi`, `lgs_bilik`
+- Format kolom: `snake_case`, bahasa Indonesia
+- Primary key: `id` auto increment
+- Nama kolom waktu: `waktu_mulai`, `waktu_selesai` (bukan `started_at`)
+- Semua komentar kode wajib **Bahasa Indonesia**
+- Struktur folder: per modul — `app/Livewire/Sesi/`, `resources/views/sesi/`, dll
+- Business logic di `app/Services/` — Livewire tidak boleh langsung query database
+- Route dipisah per modul di `routes/modules/`
+
+---
+
+## Index Dokumen
+
+Baca dokumen berikut sesuai task yang dikerjakan.
+Jangan baca semua dokumen sekaligus — cukup yang relevan.
+
+### `docs/TECHSTACK.md`
+Referensi tech stack, versi, extensions VS Code, dan remote settings.
+- Stack lengkap → `## Backend`
+- IoT stack → `## IoT`
+- Dev tools → `## Development Tools`
+
+### `docs/MODULES.md`
+Daftar modul, fitur per modul, dan role permission matrix.
+- Role & permission → `## Role` dan `## Role Permission Matrix`
+- Modul 1 (Unit PS) → `## Modul 1`
+- Modul 2 (Bilik) → `## Modul 2`
+- Modul 3 (Harga & Paket) → `## Modul 3`
+- Modul 4 (Sesi & Billing) → `## Modul 4`
+- Modul 5 (Pembayaran) → `## Modul 5`
+- Modul 6 (Member — Fase 2) → `## Modul 6`
+- Modul 7 (Laporan) → `## Modul 7`
+- Modul 8 (User & Role RBAC) → `## Modul 8`
+- Modul 9 (Konfigurasi) → `## Modul 9`
+
+### `docs/SCHEMA.md`
+Struktur tabel database lengkap beserta relasi.
+- Tabel users → `## Tabel Bawaan Laravel`
+- Tabel RBAC → `## Modul 8 — User & Role`
+- Tabel unit PS → `## Modul 1 — Manajemen Unit PS`
+- Tabel bilik & log IoT → `## Modul 2 — Manajemen Bilik`
+- Tabel paket & harga → `## Modul 3 — Manajemen Harga & Paket`
+- Tabel member → `## Modul 6 — Member`
+- Tabel sesi & extend → `## Modul 4 — Sesi & Billing`
+- Tabel transaksi → `## Modul 5 — Pembayaran & Transaksi`
+- Tabel pengeluaran → `## Modul 7 — Laporan Keuangan`
+- Tabel konfigurasi → `## Modul 9 — Konfigurasi Sistem`
+- Relasi antar tabel → `## Relasi Antar Tabel`
+
+### `docs/SYSTEMFLOW.md`
+Alur kerja sistem per modul — baca sebelum generate logic sesi, IoT, atau laporan.
+- Alur login → `## Alur Autentikasi`
+- Alur sesi prepaid → `## Alur Sesi Prepaid`
+- Alur extend → `## Alur Extend Waktu`
+- Alur tutup sesi → `## Alur Tutup Sesi Manual`
+- Alur open billing → `## Alur Open Billing`
+- Alur close billing → `## Alur Close Billing`
+- Alur anomali IoT → `## Alur Deteksi Anomali Smart Plug`
+- Alur member → `## Alur Member`
+- Alur pengeluaran → `## Alur Input Pengeluaran`
+- Alur laporan → `## Alur Laporan Keuangan`
+- Alur IoT smart plug → `## Alur IoT — Smart Plug Control`
+
+### `docs/FOLDER_STRUCTURE.md`
+Konvensi struktur folder dan penamaan file.
+- Struktur `app/` → `## app/`
+- Struktur `resources/` → `## resources/`
+- Struktur `routes/` → `## routes/`
+- Struktur `database/` → `## database/`
+- Struktur `python/` → `## python/`
+- Konvensi penamaan → `## Konvensi Penamaan`
+
+### `docs/PROGRESS.md`
+Status progress per modul — cek sebelum mulai task baru.
+- Setup & dokumentasi → `## Setup & Dokumentasi`
+- Migration & seeder → `## Database Migration & Seeder`
+- Per modul → `## Modul 1` dst.
+
+---
+
+## Aturan Tambahan Lagos
+
+- **Jangan generate fitur Fase 2** (Member & Poin) kecuali diminta eksplisit
+- **Kolom poin** (`poin_balance`, `poin_earned`, `poin_used`) tetap ada di migration tapi nilai default 0
+- **Python service** (`python/iot_service.py`) dijalankan terpisah — Laravel komunikasi via HTTP lokal
+- **Polling smart plug** setiap 15 detik via WiFi dedicated (tidak ada koneksi internet)
+- **1 user hanya boleh punya 1 role** — validasi di level aplikasi
+- **Grace period tutup sesi** = 5 menit — TV belum mati sampai grace period habis
+- **Formula open billing** = `(harga_per_jam / 60) × total_menit_aktual`
+- **Soft delete** diterapkan pada tabel: `lgs_unit_ps`, `lgs_bilik`, `lgs_paket`, `lgs_member`, `lgs_kategori_pengeluaran`, `lgs_pengeluaran`

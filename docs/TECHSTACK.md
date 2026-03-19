@@ -8,7 +8,7 @@
 | Framework          | Laravel    | 13     |
 | Language           | PHP        | 8.5    |
 | Database           | PostgreSQL | latest |
-| Realtime/Component | Livewire   | 3.x    |
+| Realtime/Component | Livewire   | 4.x    |
 
 <!-- #endregion -->
 
@@ -17,7 +17,7 @@
 
 | Komponen      | Teknologi    | Versi  |
 | ------------- | ------------ | ------ |
-| CSS Framework | Tailwind CSS | 3.x    |
+| CSS Framework | Tailwind CSS | 4.x    |
 | UI Component  | Flux UI Pro  | 2.13.0 |
 | JS Framework  | Alpine.js    | 3.x    |
 | Build Tool    | Vite         | latest |
