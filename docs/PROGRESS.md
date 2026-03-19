@@ -19,7 +19,7 @@
 | SCHEMA.md                     | 🟢      | —                     |
 | FOLDER_STRUCTURE.md           | 🟢      | —                     |
 | PROGRESS.md                   | 🟢      | —                     |
-| CLAUDE.md                     | 🔴      | —                     |
+| CLAUDE.md                     | 🟢      | —                     |
 
 <!-- #endregion -->
 
